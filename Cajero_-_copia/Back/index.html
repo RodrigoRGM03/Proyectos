@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cajero ATM</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Contenido del menú principal -->
+    <div id="menu_principal">
+        <div class="container">
+            <h1>ATM StartBank</h1>
+            <div class="centered-image">
+                <img src="https://i.postimg.cc/3kCxk6Q9/2972ba85-c76b-41ca-ba3e-bd11edd975b1.png" alt="Logo">
+            </div>
+            <p>Bienvenido al cajero automático StartBank.</p>
+            <h2>Elige su tipo de tarjeta:</h2>
+            <button id="credito">Credito</button>
+            <button id="debito">Debito</button>
+            <h2>Tu dinero mas seguro aqui en el StartBank</h2>
+        </div>
+    </div>
+
+    <!-- Contenido del menú de tarjeta de crédito -->
+    <div id="tarjeta_credito" style="display: none;">
+        <div class="container">
+            <h1>Tarjeta de crédito</h1>
+            <form id="tarjetaForm">
+                <label for="numero_tarjeta">Número de Tarjeta:</label>
+                <input type="text" id="numero_tarjeta" name="numero_tarjeta" required><br><br>
+
+                <label for="pin">PIN:</label>
+                <input type="password" id="pin" name="pin" required><br><br>
+
+                <input type="submit" id="ingresar_credito" value="Ingresar">
+                <input type="button" id="salir_credito" value="Salir">
+            </form>
+        </div>
+    </div>
+
+    <!-- Contenido del menú de tarjeta de débito-->
+    <div id="tarjeta_debito" style="display: none;">
+        <div class="container">
+            <h1>Tarjeta de débito</h1>
+            <form method="POST">
+                <label for="numero_tarjeta">Número de Tarjeta:</label>
+                <input type="text" id="numero_tarjeta_debito" name="numero_tarjeta_debito" required><br><br>
+
+                <label for="pin">PIN:</label>
+                <input type="password" id="pin_debito" name="pin_debito" required><br><br>
+
+                <input type="button" id="ingresar_debito" value="Ingresar">
+                <input type="button" id="salir_debito" value="Salir">
+            </form>
+        </div>
+    </div>
+
+    <!------------------------------------------------------------------------------------------------------------------>
+
+    <!-- Contenido del menú de credito-->
+    <div id="Menu_Credito" style="display: none;">
+        <div class="container">
+            <h1>ATM StartBank</h1>
+            <h2>Tarjeta de crédito</h2>
+            <p>Presione la opción que desee:</p>
+            <button type="button" id="retiro_C">Retiro</button>
+            <button type="button" id="pagar_C">Pagar adeudos</button>
+            <button type="button" id="saldo_C">Consultar saldo</button>
+            <button type="button" id="pin_Cre">Cambiar PIN</button>
+            <button type="button" id="adeudosCredito_C">Pagar deudas crédito</button>
+            <button type="button" id="transacciones_C">Transacciones</button>
+            <button type="button" id="regresar_C">Regresar al menú anterior</button>
+        </div>
+    </div>
+
+    <!--Retiro-->
+    <div id="Retiro_credito" style="display: none;">
+        <div class="container">
+            <h1>ATM StartBank</h1>
+            <h2>Eligió la opción retiro</h2>
+            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxESEhUTEhAVEhIXGBUVFRUVFhUXFRIVFxkWFxUXFRYYHSggGRonGxgTITIiJSkrLi4uGB8zODMsNygtMisBCgoKDg0OGxAQGi8hHSYvNS4rLy0vLS03Ly0tLS0tLS0vNS0rNS0tKy8tLS0tKy0tLS0tLy0tNy0tLS0tLS0tLf/AABEIAOEA4QMBIgACEQEDEQH/xAAcAAEAAgMBAQEAAAAAAAAAAAAABQYDBAcCAQj/xABJEAACAQICBAoGBwUECwAAAAAAAQIDEQQhBQYSMQcTIkFRYXGBkbEjMnKhwdEUFlJigpKyM0JTouFVwsPxFSRDVGODk6PS4vD/xAAZAQEAAwEBAAAAAAAAAAAAAAAAAQIDBAX/xAApEQEBAAEDAwMDBAMAAAAAAAAAAQIDETEEEiEUQVETIjJCYaGxBSNx/9oADAMBAAIRAxEAPwDuIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADV0ntcVPZbUkm01vyzI3Rtdzpq7bead3fd/SxO3hFvnZOXPO2ulHN6/CVhotr6NiG02ndUVmsn/tDXnwnU/wB3CVH7U4LyTNJoal9qzuth8uocYuleKPnGR+0vFHH9I8IrqrZ+hNRve8cZVpSe9Wbp007Z7rmDB8IFSlfYwiztfjMVXrPLodRZdxf02p8K+o0/l2fjI/aXij6qi6V4nHnwmYnmw1Ffim/keZcKGIgnOeFpShGznsympKN+U1dNN2u7dRF6fUk3sTNfC3aV2UGDCSTV1uaTXXzX8jOYNgAAAc+0/wAKFLD4iVGGGdaNOThUnxijyllJQjsvas7rNrNMidA8Ks+OccXCPESk9mcItTpq/J243e0rW3ZrrK98dE6XVuO+zq4NXRekIYijTrU77FSKnG6s7NXs1zM2izCzbxQABAAAAAAAAAAAAAAAAD5KN009zyKzoZ2c4Pen5ZPyRZyszWxi5Lmlf+ZbXmWx91MvauQa2Ybi8biIf8SUu6paovdIjaMIt8qWz12b8i2cKOG2cYp2yqUovtlFyi/coFY+iL+NT8ZfI9nTy3wleVqY7Z2HEU/4y/JM+qhS/j/ySPFbDqKuqkJdSvfyMdOKbs5KK6Xey8C6rJXpwS5NTbfRste9n2eHvTlF/vRkn3pozUMHBv8AbRsuqXyM1aCTympdia8yt8+Fp48uy6iY3jsBhKjd5SoU3L2tiG171IsRReCWtfR9FfYlXpfkq1FH3bJejxK9eAAIS4zp3UuMcViFOo7znKtScc7QqNy5atv2nJWvmo36Sr6S1fqUoykpxnGHrZSjJL7Wy16vWmzq3CDiqdKrQbjKVScakIRhGc5S2XFtKMU+mPWc+1n0zT4upShGcas7KopwnCUEksnGaTu1ZbtzODLvmpZOHvdPnctPG1euCGlUjQqRq0thxktiVkpOnNbWzJrfaSm1fNbRfyuaj4ecaLnNJObWzZ35EUkm+h7W33WLGdmnbcZu8jqbPq5bAALsAAAAAAAAAAAAAAAAArmsi2atOfV+l3+JYyG1npXpxl9mXuaa87FseVc+FG4WcNenQqrmlOHdNKS/Q/EodGNRxWzTk+tKNnb8PxOna50eN0ZJ88Nif5JKMv5XI5PCpZWsn13ll4Ox6fS3fT2+HndRNs9/lt1cHN3fEzv03Xkoo0kepVLq1rd7z7bvyMmEgnJX9VNX/odPEYc1KUcNXS9X3RMdbC1Iq8o2XTl8CSpaNpVFanWg3bdKLUu31vgamkNHzp5uC2VltLr6c3Y5MOp08su3fa/F8X+XXl0urjj3bbz5nmfwunBBW9BWh9jFT8JwpT85M6Sco4JKtp42H3sPU/NCUP8ADOrnn6k2zv8A12ad3xgACi6qcIGqssfSp8VNQr0pOUHK6i1K21FtZxzUHez9U5FU1axKxfE1bT2WpV60ZucN7cobbs5VXazXNtXZ0DXvX+MVPD4R7VSzjOsnyaa3NU2t8t6usl181j0Nq3TpcUsnCnTgkrevUzc5P8Tv2sx1Mbfx5duhrXDHbK+HjD6WhgcPTeKk4xqVNmCSu4Jpu8uiOV+raRZKFaM4qUJRnFq6lFpxkulNZM5Bwt6RdXFKlGWVGCT9udpSz9ni/ArugNP4jCWlQqOEcm4POEvai8r9as+svjO2bMcsbne73r9CgqWpuu9PG+jnHisRa+zfk1Et7g3ne2ey87dNna2l2NlnIAAgAAAAAAAAAAAAADT0xS2qM11X/Lyvgbh8nG6ae55CIqo4aiq2HrUX+9GcfzxcfM4mjtuh3s1XF9DXfF/5nJdZcLxWLr0+ZVJNezJ7cfdJHpdJfNjz+oniVpYSKc0nFzvlZOzbJfD4RJyjxMm96W0rxv09JFYOPK2nuT7CZnTtUj6OpZpqzlm2uu/YdOVYYxs6EqKF24NJ3jOe0rK3SuaxPwhdWavFq1ua3YValRznHipt70tq1r7r52fvNfDY2pSd4Pdfku+zLqaPL6zoPrZfUwu1et0P+R+hj9POb4/0smodSnh8fiYSmoqpGnCmnzyhKbSv07NTLsOvReR+bsRjliJccouKmlLZe9ZLIvupvCDKls0cY3OnujWzcodCqc8o9e/t5uaZWz7uXRnpSW3Dh1UqPCRp/wCjYfi4StWrXjG2+EP359WWS63fmJPTGtWEw9JVZVVNSygqbU5Tdk8rO25p3bSzXSjj9TTk6+NjiK75Mp7MlzQoSvGUF1KEpdrbfOTarhjv5QMsvB+7/M/ScqkYxcpO0Yrab6EldvwPzhj6Eqc5Ql60JTpy7Y3T98TtWvmP4vRtRp51IwprrU2lL+TbIi+pN7HGtLYx16s6kt9ScpvqTd7eSMEj5Dp6d3ZzfF956b/+7SGrNhMTOlONSDtOElKL6Gnddx+hdE46NejTrR3VIxlbous0+tO67j86nVOCPSylRnhpPl026kF005W2rdk7t+2iYy1Z43dBABZgAAAAAAAAAAAAAAAAqOLXF4p+2n3Ss35sofChg9nFxmllVpx75Qbi/dxZ0HWanaqn0xXim18jxpfQdHGwpurtJxTcZQaTW0ltLNPLJeB1aOpMMplXLqYd0uMcfhGyse3N5ZvLdm8uw6M+D3Dfxq/jT/8AAx1dQsLHOWJqRX3nTXnE6vU6bn9Pm57tu97u/Td3PJfvqVgv98f56XyM1PUDDSV1iKkk9zTptPvUR6nT+T0+bnVDBzq1Y0qUNqc1NpJpX2I7TS67X8DXlFptNNNOzTVmmt6ae5nWdF6kUKFenXjVqynT29lNw2XtxcHtWjfc+kktYNT8PjYbT9FX3KrFZvoU4/vr39Z52t23O3Hh6fT55Y4zHNxHYV77n1c/afWizaR1E0hSlZUONjzTptNPudpLwJrVfg4qzkp4xcXTWfFKSc59UnHKMex37DHZ03OSbqfrLyqrqfxYUa34p04Sn/Ptl24T8XfBYKF/2lqndGml/iEXwqYaFPFwjBKMeIprZiklFKVSKSS3ZJeA19cnh9GtrJ4ZeOzRv8CVedlNPkldWPR8kQ0fIO6z38/bzli1D0pHDY2nOfqSvSk/s7dkn2bSjfquYdc8FCli2oXs6WHbXMpcXFO3U0ovtbI7RlFzrUoR9aVSnFdrkkgrzH6MABdygAAAAAAAAAAAAAAAK/rVH9m/aXkeNGYpKmk4VHa6vGN1vfOZNa3+zXtf3T5oleij3+bNP0sv1M/0uH8Or+U0dLaPweKUY4jCSrKLbiqlNS2W8m0SZhqYunF2c0muYqsr/wBTdEf2ZD/ool9G4ejh6apUKDpU1e0IQairu7y7TP8AT6X217z3SxMJerK/iTsb/ucf92f5WSWDfJNI3sIuT4lamMwAIWcG17xqrY7ETW6MuKX/AC1sPt5Sk+8unCPhKbwFHZlFyoOmrJpvYcVTe772x4ELrZqo4Yy9FOVKdSLmt7pubTl+HN9hOaUw3G0qkPtRkl2/u++xOOFu6+WpJ27OVOmnvSZ9UUtysb+D0RiKrtCjLta2YrvlZG9pbQiw1JSqT2qs3aMY+rFLOTu85cy5vWKdt23b9832ReNxc6s3Um7yeym+qMVFe5ItHBdozjcYqjXJoxc30bcrxgvfJ/hKedr4NtD/AEfBxlJWqVnxsulRf7Nfls7dMmIjO7YrWACzmAAAAAAAAAAAAAAAAVzWp8qC6n72vkZtGL0Uex+bNTWd+livuLzkbuBXo4eyjS/jGU/Ks5oVtGqUm8s3fezfBWXZazdG/wCil1eLM+Ewew73VujPebh8J7qjtj1CN79Sv5G9h1yUacN0uxeaN2ksl2IrV49gAhKpaafpp936Ua9CKbaf2ZNdqTfwM2lX6afaYsI7TjfddJ9jyfuOicMLywkDp3R6r8mfJnG+xJdD6udO2fYT8o2dnvWRhxFBSXQ1ufR/Qz1sLnjtjdq16fUmnnvlN4qmq+p1atioRq02qEXt1Jb4VEt0FLnbdst9rnakiE1XfJmuhxfiv6E2Z9u3hpln3+QABUAAAAAAAAAAAAAAABU9Y5XrPqjFeb+JKYZWhH2Y+SIfT0vTz/D+lE3BWSXUjS8RljzVV4RdIyp0adKE5QnWqRTlByU4045zcdnPfsZLemyB0VKpW0fi5fTMQlQrVZ058ZPjJQhS5EJNu6TbTa6S9YnRFKpXpYiW06lJSVPPkraum7c7z9y6DDHV6gqdemlJRxE5zq8p3cp+tst7l1F8c5MdltlHq4fELC4OFPF1+PxdRTvOrPk7MHkms1G84t793UbWha+OnpKh9JqSi3SlVlRTlGEI7NSEdqmnbackpd67Fb1oCgpYaXK/1aLjSW1kk4qPKyzdkjJHQ9NYl4q8uNdPit62VG6eStvuunpJupEbJSPqy7jfSNGC5Pa0vM3zCrwABCVN0g/S1Pal5s1zNjH6SftS82YJfLzOmcMK2Mb68n02l+ZKXxMBsYpZQfTBfytx/uo1xOCpvViWc11Rfhf5k+VvVt+kkvuv3NfMshjny1w4AAUWAAAAAAAAAAAAAAAAUvSrvXn7VvgWAr2Izry66j/UWE0y9mWPNAAVXAABlpPcrZbVzfNGg7uK6G2bxFTAAEJUiu+VLtfmY3zHqTzPLOlzpPSFG1Gg+p++0l8SNLBpilbDw+7sfpsV8rhfC2U8pLV+Xpl1xkvJ/AtBU9CO1eH4v0sthnqcr4cAAKLgAAAAAAAAAAAAAAfJPICk0M6y65p/zXLGVzRudSHbf3NljNM2OAACrQAAGbCLleJvGng1m+w3CKmB8bPp4qvkvsZCVIR8fz+B9R9hm0uz3nS51o03H0EurZ80VYt2mF6GfZ5NFRKafC+fLa0W7Voe155FwKZgXapD2o+aLmV1OVsOAAGa4AAAAAAAAAAAAAGLFO0JPojLyMpr6RdqVT2JeTEKqeiV6WPf5MsBBaGXpO5/BE6aZ8ssOAAFVwAAbOCW/uNs1sEsmbJVMDFinyJezLyZlMOM/Zz9mXkwlSz3hVepFfeiveeDPo5Xqw9qPudzpvDni1aSV6VT2ZeRTi64tXhNdMZeTKUZ6bTNkoO0ov7y80XYo0Xmi8jUNMABk0AAAAAAAAAAAAAA09Lv0NT2WbbZH6YrRdGaUk3bpXSiZyi8IHQa5b9n4olpSlf/ANf6kXoRpOV2lkt5IuMftQ8F8zTLlnjwy02+fyt8T2Yqcor96PdZfE98bH7S8UUWegeeNj9peKPnGx+0vFASGDXJ7zOa2Fqx2Vylz86NhMqtH081IJpp7mmn3norGsGvWCwt4upxtVZcXS5TT6JS9WPY3fqYSw6ewccOouLclJtWdsrdaMers1UrrmsnLPntl5tHItYtPVsXWlWqNpv1YRbtCK9WMfnztt5E/qdrhVjicNGaitqSp1WrtyU+Qn1Wbi2+rmRXLLV7vF8NcPo9l3n3e1duauUjSEHQkoT32Tyzyu18GXg5JwpadnDFSowSXoafLT5UW5VHJW7NnPK3lNyzk+1XDHTuX+zj9lv0LgePTltbMVKzyzeSeXiWw4LqFrdLB4n00qjw8041LvaUX+7UUbt3Tydlub32R3ahWjOMZwkpQklKMou6lFq6aa3qxO+VnlS9u/2zaMgAAAAAAAAAAAAAAAMeIoqcXGW5qzI36vUfveK+RLAmWxFkqJ+r9Hpn4r5D6vUemfivkSwJ7qjtnwiPq9R6Z+K+Q+r1Hpn4r5EuB3U7Z8In6vUfveK+Q+r9H73j/QlgR3U7Z8In6v0PveP9CRw2HjTioR9Vbufe7mUC21MkiOxuExE5cmvCNJ5OnxV3JNWac9u/TmkiGWpGE5sJh/yNFqBCd1V+pWF5sJhu+DZv0dE1Ka2aSoUlzbNNpLui0TYGyd1Z/wBD6R/tL/swPuI1Y4+EY4vi8TKLbU3Fwln7D6PJFlBNu5uqsNRsGt2GofihKf6pExovR1SjyVVjxKVoUoUowjBfdd2+vvJIEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB//Z"
+                alt="Patron">
+            <!--Esto muestra el monto actual de la tarjeta-->
+            <p id="montoTarjeta">Monto disponible: Cargando...</p>
+            <form>
+                <label for="cantidad">Ingrese la cantidad que desea retirar:</label>
+                <input type="number" id="cantidad" name="cantidad" placeholder="Cantidad en MXN" required>
+                <button type="button" id="retirar_C">Retirar</button>
+                <button type="button" id="regresar_MC">Regresar</button>
+            </form>
+            <p id="mensaje_error_retiro" style="color: red; display: none;">La cantidad de retiro debe ser mayor o igual a 50 y menor o igual al monto disponible.</p>
+            <p id="mensaje_error" style="color: red; display: none;">La cantidad de retiro debe ser mayor que cero y un múltiplo de 50.</p>
+        </div>
+    </div>
+
+    <div id="informacion_billetes" style="display: none;">
+        <div class="container">
+            <h1>Información de Billetes</h1>
+            <table>
+                <tr>
+                    <th>Denominación</th>
+                    <th>Cantidad</th>
+                    <th>Unidad Moneda</th>
+                </tr>
+                <tbody id="billetesInfo">
+                </tbody>
+            </table>
+            <button id="salir">Salir</button>
+            <button id="otra_transaccion">Realizar otra transacción</button>
+        </div>
+    </div>
+
+    <!--SaldoCre-->
+    <div id="Retiro_cre" style="display: none;">
+        <div class="container">
+            <h2>Información de Tarjeta de Crédito</h2>
+
+            <div>
+                <label for="numero_tarjeta_mostrado">Número de Tarjeta:</label>
+                <div id="numero_tarjeta_mostrado" class="info">#### #### #### ####</div>
+                <!-- El número de tarjeta se mostrará aquí -->
+            </div>
+
+            <div>
+                <label for="saldo_tarjeta_mostrado">Saldo:</label>
+                <div id="saldo_tarjeta_mostrado" class="info">$0.00</div>
+                <!-- El saldo se mostrará aquí -->
+            </div>
+
+            <button id="regresar_Retiro">Regresar</button>
+        </div>
+    </div>
+
+    <!--PagarAdeudos-->
+    <div id="PagarAdeudos" style="display: none;">
+        <div class="container">
+            <h1>ATM StartBank</h1>
+            <h2>Eligió la opción de pagar adeudos a crédito</h2>
+            <form>
+                <!-- Elemento para mostrar el dato devuelto por la API -->
+                <p id="deuda">Cargando deuda...</p>
+
+                <p>Ingrese el monto a pagar:</p>
+                <input type="number" placeholder="Monto a pagar" id="monto">
+                <br><br>
+                <button id="pagoTotal">Pago total</button>
+                <button id="abono">Abono</button>
+                <button id="regresar">Regresar</button>
+            </form>
+        </div>
+    </div>
+
+    <!--CambiarPIN-->
+    <div id="CambiarPIN_Cre" style="display: none;">
+        <div class="container">
+            <h1>ATM StartBank</h1>
+            <h2>Eligió la opción cambiar PIN</h2>
+            <form>
+                <label for="pinActual">Ingrese su PIN actual:</label><br>
+                <input type="password" id="pinActual" name="pinActual" placeholder="PIN actual" required><br>
+                <label for="newPin">Ingrese el nuevo PIN:</label><br>
+                <input type="password" id="newPin" name="newPin" placeholder="Nuevo PIN" required><br>
+                <button type="button" id="acceptBtn">Aceptar</button>
+                <button type="button" id="cancelBtn">Cancelar</button>
+                <p id="errorMsg" style="color: red; display: none;">El PIN debe tener 4 dígitos numéricos.</p>
+            </form>
+        </div>
+    </div>
+
+    <!--DeudasCrédito-->
+    <div id="DeudaCredid" style="display: none;">
+        <div class="container">
+            <h1>ATM StartBank</h1>
+            <h2>Tarjeta de crédito</h2>
+            <p>Opción: Pagar adeudos Crédito</p>
+            <div class="button-container">
+                <button onclick="navigateTo('AdeudosCredito.html', 'Vehículo')">Vehículo</button>
+                <button onclick="navigateTo('AdeudosCredito.html', 'Hipotecario')">Hipotecario</button>
+                <button onclick="navigateTo('AdeudosCredito.html', 'Educativo')">Educativo</button>
+                <button type="button" onclick="goBack()">Regresar</button>
+            </div>
+            <div class="info-box">
+                <h3>Información adicional</h3>
+                <p>Aquí puedes agregar información relevante para el usuario, como detalles sobre los pagos de adeudos.</p>
+            </div>
+        </div>
+    </div>
+
+    <!--DeudasCreditoOpciones-->
+    <div id="OpcionesDeu" style="display: none;">
+        <div class="container">
+            <h1>ATM StartBank</h1>
+            <h2>Eligió la opción de pagar adeudos a crédito</h2>
+            <p>Ingrese el monto de la deuda</p>
+            <input type="number" placeholder="Deuda" id="deuda">
+            <p>Ingrese el monto a pagar</p>
+            <input type="number" placeholder="Monto a pagar" id="monto">
+            <br><br>
+            <button id="pagoTotal">Pago total</button>
+            <button id="abono">Abono</button>
+            <button id="saldoRestante">Saldo restante</button>
+            <button id="regresar">Regresar</button>
+        </div>
+    </div>
+
+    <!--Transacciones-->
+    <div id="Transacciones_Cr" style="display: none;">
+        <header>
+            <div class="container">
+                <h1>ATM StartBank</h1>
+            </div>
+        </header>
+        <main>
+            <div class="container">
+                <h2>Eligió la opción de historial de Transacciones</h2>
+                <p>Historial de transacciones:</p>
+                <button id="regresarBtn">Regresar</button>
+                <button id="continuarBtn">Continuar</button>
+            </div>
+        </main>
+        <footer>
+            <div class="container">
+                <p>&copy; 2024 ATM StartBank. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!------------------------------------------------------------------------------------------------------------------------------------------------------------>
+    <!-- Contenido del menú de debito-->
+    <div id="Menu_Debito" style="display: none;">
+        <div class="container">
+            <h1>ATM StartBank</h1>
+            <h2>Tarjeta de débito</h2>
+            <form method="POST">
+                <p>Presione la opción que desee:</p>
+                <button type="button" id="retiro">Retiro</button>
+                <button type="button" id="depositar">Depositar</button>
+                <button type="button" id="saldo">Consultar saldo</button>
+                <button type="button" id="pin_D">Cambiar PIN</button>
+                <button type="button" id="transacciones">Transacciones</button>
+                <button type="button" id="regresar">Regresar al menú anterior</button>
+            </form>
+        </div>
+    </div>
+
+    <!--Retiro-->
+    <div id="Retiro_debito" style="display: none;">
+        <div class="container">
+            <h1>ATM StartBank</h1>
+            <h2>Eligió la opción retiro</h2>
+            <!--Imagen#5-->
+            <form>
+                <label for="cantidad">Ingrese la cantidad que desea retirar:</label>
+                <input type="number" id="cantidad" name="cantidad" placeholder="Cantidad en MXN" required>
+                <button type="button" id="retirar_D">Retirar</button>
+                <button type="button" id="regresar_MD">Regresar</button>
+            </form>
+            <p id="mensaje_error" style="color: red; display: none;">La cantidad de retiro debe ser mayor que cero y un múltiplo de 50.</p>
+        </div>
+    </div>
+
+    <div id="informacion_DEB" style="display: none;">
+        <div class="container">
+            <h1>Información de Billetes</h1>
+            <table>
+                <tr>
+                    <th>Denominación</th>
+                    <th>Cantidad</th>
+                    <th>Unidad Moneda</th>
+                </tr>
+                <tbody id="billetesInfo">
+                </tbody>
+            </table>
+            <button id="salir">Salir</button>
+            <button id="otra_transaccion">Realizar otra transacción</button>
+        </div>
+    </div>
+
+    <!--ConsultaSaldo-->
+    <div id="Consulta_saldo_debito" style="display: none;">
+        <div class="container">
+            <h2>Información de Tarjeta de Crédito</h2>
+
+            <div>
+                <label for="numero_tarjeta_mostrado">Número de Tarjeta:</label>
+                <div id="numero_tarjeta_mostrado" class="info">#### #### #### ####</div>
+                <!-- El número de tarjeta se mostrará aquí -->
+            </div>
+
+            <div>
+                <label for="saldo_tarjeta_mostrado">Saldo:</label>
+                <div id="saldo_tarjeta_mostrado" class="info">$0.00</div>
+                <!-- El saldo se mostrará aquí -->
+            </div>
+
+            <button id="regresar_Retiro">Regresar</button>
+        </div>
+    </div>
+
+    <!-- Depositar-->
+    <div id="Depositar_debito" style="display: none;">
+        <div class="container">
+            <h1>ATM StartBank</h1>
+            <h2>Eligió la opción deposito</h2>
+            <!--Imagen#4-->
+            <form>
+                <label for="cantidad">Ingrese la cantidad que desea depositar:</label>
+                <input type="number" id="cantidad" name="cantidad" placeholder="Cantidad en MXN" required>
+                <button onclick="window.location.href = 'file:///C:/Users/rodri/cajero/DepositoC.html'">Depositar</button>
+                <button type="button" onclick="window.history.back();">Regresar</button>
+            </form>
+        </div>
+    </div>
+
+    <!--Cambiar PIN-->
+    <div id="Cambiar_PIN_debito" style="display: none;">
+        <div class="container">
+            <h1>ATM StartBank</h1>
+            <h2>Eligió la opción cambiar PIN</h2>
+            <!--Imagen#3-->
+            <form>
+                <label for="newPin">Ingrese el nuevo PIN:</label><br>
+                <input type="text" id="newPin" name="newPin" placeholder="Nuevo PIN" required><br>
+                <button id="acceptBtn">Aceptar</button>
+                <button id="cancelBtn">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Transacciones-->
+    <div id="Transacciones_debito" style="display: none;">
+        <header>
+            <div class="container">
+                <h1>ATM StartBank</h1>
+            </div>
+        </header>
+        <main>
+            <div class="container">
+                <h2>Eligió la opción de historial de Transacciones</h2>
+                <p>Historial de transacciones:</p>
+                <button id="regresarBtn">Regresar</button>
+                <button id="continuarBtn">Continuar</button>
+            </div>
+        </main>
+        <footer>
+            <div class="container">
+                <p>&copy; 2024 ATM StartBank. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+    </div>
+
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+</html>
