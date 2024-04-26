@@ -1,11 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Apilongo",
-    "\\Apilongo\\Apilongo",
-    "\\Apilongo\\Apilongo\\App_Data",
-    "\\Apilongo\\Apilongo\\Data"
+    "\\Apilongo"
   ],
-  "SelectedNode": "\\Apilongo\\Apilongo\\Data\\UsuarioData.cs",
+  "SelectedNode": "\\Apilongo\\App_Start",
   "PreviewInSolutionExplorer": false
 }
