@@ -139,17 +139,16 @@
         <div class="container">
             <h1>ATM StartBank</h1>
             <h2>Eligió la opción de pagar adeudos a crédito</h2>
-            <form>
-                <!-- Elemento para mostrar el dato devuelto por la API -->
-                <p id="deuda">Cargando deuda...</p>
-
-                <p>Ingrese el monto a pagar:</p>
-                <input type="number" placeholder="Monto a pagar" id="monto">
-                <br><br>
-                <button id="pagoTotal">Pago total</button>
-                <button id="abono">Abono</button>
-                <button id="regresar">Regresar</button>
-            </form>
+            <p>Ingrese el monto a pagar</p>
+            <input type="number" placeholder="Monto a pagar" id="monto">
+            <br><br>
+            <button id="pagoTotal">Pago total</button>
+            <button id="abono">Abono</button>
+            <button id="regresar">Regresar</button>
+            <!-- Elemento para mostrar mensajes -->
+            <p id="mensaje" style="display: none;"></p>
+            <!-- Agrega un elemento <p> para mostrar el monto obtenido de la API -->
+            <p id="montoApi" style="display: none;"></p>
         </div>
     </div>
 

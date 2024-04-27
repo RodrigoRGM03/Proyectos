@@ -251,12 +251,15 @@ document.getElementById('pagar_C').addEventListener('click', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Llamar a la función mostrarPagarAdeudos cuando se cargue la página
     mostrarPagarAdeudos();
 });
 
+// Función para obtener la deuda de la tarjeta de crédito
 function obtenerDeuda(numeroTarjetaCredito) {
-    const apiUrl = 'https: //localhost:44350/api/tarjetas/ObtenerDeudaTarjetaCredito?numeroTarjetaCredito=${numeroTarjetaCredito}';
+    const apiUrl = 'https://localhost:44350/api/tarjetas/ObtenerDeudaTarjetaCredito?numeroTarjetaCredito=' + numeroTarjetaCredito;
 
+    // Realizar la solicitud GET a la API
     fetch(apiUrl)
         .then(response => {
             if (!response.ok) {
@@ -265,19 +268,25 @@ function obtenerDeuda(numeroTarjetaCredito) {
             return response.json();
         })
         .then(data => {
+            // Mostrar el dato devuelto por la API en el párrafo con id "deuda"
             const deudaElement = document.getElementById('deuda');
-            deudaElement.textContent = 'Deuda actual: $$ { data.toFixed(2)}';
+            deudaElement.textContent = 'Deuda actual: $${data.toFixed(2)}';
         })
         .catch(error => {
             console.error('Error al obtener la deuda de la tarjeta:', error);
+            // Puedes agregar lógica adicional para manejar errores, como mostrar un mensaje de error al usuario
         });
 }
 
+// Función para mostrar la sección PagarAdeudos y obtener la deuda
 function mostrarPagarAdeudos() {
+    // Mostrar la sección PagarAdeudos
     document.getElementById('PagarAdeudos').style.display = 'block';
-
-    const numeroTarjetaCredito = numeroTarjetaGlobal;
-
+    
+    // Número de tarjeta de crédito (asegúrate de obtenerlo de la forma correcta)
+    const numeroTarjetaCredito = numeroTarjetaGlobal; // Reemplaza con el número de tarjeta correcto
+    
+    // Llamar a la función para obtener la deuda de la tarjeta de crédito
     obtenerDeuda(numeroTarjetaCredito);
 }
 
