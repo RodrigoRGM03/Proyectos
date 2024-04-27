@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const newPin = document.getElementById('newPin').value;
             const pinActual = document.getElementById('pinActual').value;
 
-            cambiarPIN(numeroTarjetaGlobal, pinActual, newPin);
+            cambiarPIN(pinActual, newPin);
         }
     });
 
@@ -371,7 +371,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!esValidoNuevoPin) {
                 errorMsg.textContent = 'El nuevo PIN debe tener 4 dígitos numéricos.';
-            } else if (noesDiferenteDePinActual) {
+            } else if (!esDiferenteDePinActual) {
                 errorMsg.textContent = 'El nuevo PIN no puede ser el mismo que el PIN actual.';
             } else {
                 errorMsg.textContent = 'El PIN actual es incorrecto.';
@@ -384,8 +384,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('acceptBtn').disabled = true;
 
-    function cambiarPIN(numeroTarjetaGlobal, pinActual, nuevoPIN) {
-        const apiUrl = 'https : //localhost:44350/api/tarjetas/CambiarPINCre?numeroTarjetaCredito=${numeroTarjetaCredito}&pin=${pinActual}&nuevoPIN=${nuevoPIN}';
+    function cambiarPIN(pinActual, nuevoPIN) {
+        const apiUrl = `https://localhost:44350/api/tarjetas/CambiarPINCre?numeroTarjetaCredito=${numeroTarjetaGlobal}&pin=${pinActual}&nuevoPIN=${nuevoPIN}`;
 
         fetch(apiUrl, {
                 method: 'POST',
@@ -413,6 +413,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('Menu_Credito').style.display = 'block';
     }
 });
+
 
 
 //Pagos de credito (Carro-Hipoteca)-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
