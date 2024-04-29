@@ -461,6 +461,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById('saldo').addEventListener('click', function() {
+        fetch('https://localhost:44350/api/tarjetas/ObtenerMontoTarjetaDebito?numeroTarjetaDebito=9876543210987654')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("saldo_actual").innerText = data.saldo;
+            })
+            .catch(error => {
+                console.error('Error al obtener el saldo:', error);
+            });
+    
         document.getElementById("Menu_Debito").style.display = "none";
         document.getElementById("Consulta_saldo_debito").style.display = "block";
     });
