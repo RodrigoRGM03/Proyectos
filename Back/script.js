@@ -492,7 +492,7 @@ function verificarNuevoPINDebito() {
     const errorMsgDebito = document.getElementById('errorMsgDebito');
 
     const esValidoNuevoPinDebito = /^[0-9]{4}$/.test(newPinDebito);
-    const esPinActualCorrectoDebito = pinActualDebito === PINDebitoGlobal;
+    const esPinActualCorrectoDebito = pinActualDebito === PINGlobal;
     const esDiferenteDePinActualDebito = newPinDebito !== pinActualDebito;
 
     if (esValidoNuevoPinDebito && esPinActualCorrectoDebito && esDiferenteDePinActualDebito) {
@@ -510,6 +510,60 @@ function verificarNuevoPINDebito() {
             errorMsgDebito.textContent = 'El PIN actual es incorrecto.';
         }
     }
+}
+
+const acceptBtnDebito = document.getElementById('acceptBtnDebito');
+
+// Agregar un evento de clic al botón "Aceptar"
+acceptBtnDebito.addEventListener('click', function() {
+    const newPinDebito = document.getElementById('newPinDebito').value;
+    const pinActualDebito = document.getElementById('pinActualDebito').value;
+
+    cambiarPINDebito(pinActualDebito, newPinDebito);
+});
+
+// Obtener el botón "Cancelar" de la interfaz de cambiar PIN de débito
+const cancelBtnDebito = document.getElementById('cancelBtnDebito');
+
+// Agregar un evento de clic al botón "Cancelar"
+cancelBtnDebito.addEventListener('click', function() {
+    // Aquí iría la lógica para cancelar la operación de cambiar PIN
+    console.log('Operación de cambiar PIN de débito cancelada');
+});
+
+// Agregar eventos para verificar el nuevo PIN al escribir en el campo
+document.getElementById('newPinDebito').addEventListener('input', verificarNuevoPINDebito);
+document.getElementById('pinActualDebito').addEventListener('input', verificarNuevoPINDebito);
+
+// Función para enviar el nuevo PIN a la API y realizar el cambio
+function cambiarPINDebito(pinActual, nuevoPIN) {
+    const apiUrl = `https://localhost:44350/api/tarjetas/CambiarPINDeb?numeroTarjetaDebito=${numeroTarjetaGlobal}&pin=${pinActual}&nuevoPIN=${nuevoPIN}`;
+
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al cambiar el PIN de débito.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        mostrarMensajeExitoDebito();
+    })
+    .catch(error => {
+        console.error('Error al cambiar el PIN de débito:', error);
+    });
+}
+
+// Función para mostrar un mensaje de éxito después de cambiar el PIN de débito
+function mostrarMensajeExitoDebito() {
+    alert('PIN de débito cambiado con éxito');
+    document.getElementById('Cambiar_PIN_debito').style.display = 'none';
+    document.getElementById('Menu_Debito').style.display = 'block';
 }
 
     console.log('Nuevo PIN válido:', newPinDebito);
