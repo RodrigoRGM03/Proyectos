@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registro de Transacciones</title>
+</head>
+<body>
+  <h1>Registro de Transacciones</h1>
+
+  <button onclick="registrarTransaccion('Retiro')">Retirar Dinero</button>
+  <button onclick="registrarTransaccion('Depósito')">Depositar Dinero</button>
+  <button onclick="registrarTransaccion('Consulta')">Consulta de Saldo</button>
+
+  <h2>Lista de Transacciones</h2>
+  <ul id="listaTransacciones"></ul>
+
+  <script>
+    // Función para registrar una nueva transacción
+    function registrarTransaccion(tipo) {
+      // Obtener la fecha y hora actual
+      const fechaHora = new Date().toLocaleString();
+
+      // Crear el texto de la transacción
+      const textoTransaccion = `${tipo} - ${fechaHora}`;
+
+      // Crear un nuevo elemento de lista
+      const nuevaTransaccion = document.createElement('li');
+      nuevaTransaccion.textContent = textoTransaccion;
+
+      // Obtener la lista de transacciones
+      const listaTransacciones = document.getElementById('listaTransacciones');
+
+      // Agregar la nueva transacción a la lista
+      listaTransacciones.appendChild(nuevaTransaccion);
+    }
+  </script>
+</body>
+</html>

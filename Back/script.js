@@ -1,6 +1,8 @@
 let numeroTarjetaGlobal = '';
 let PINGlobal = '';
 
+
+
 // Opciones "Tipo_Tarjetas"---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 document.getElementById("credito").addEventListener("click", function() {
     document.getElementById("menu_principal").style.display = "none";
@@ -253,6 +255,7 @@ document.getElementById('pagar_C').addEventListener('click', function() {
 
 });
 
+
 //Ver Saldo--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', function() {
     // Evento para el botón "saldo_C"
@@ -290,6 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 // Mostrar el saldo devuelto por la API en la interfaz
                 actualizarInformacionTarjeta(numeroTarjeta, data);
+                guardarTransaccion('Checar Saldo');
             })
             .catch(error => {
                 console.error('Error al obtener el saldo de la tarjeta:', error);
@@ -415,9 +419,19 @@ document.getElementById('regresar_C').addEventListener('click', function() {
 //document.addEventListener('DOMContentLoaded', function() {
 
     //retiro---------------------------------------------------
-    function obtenerMontoTarjetaCredito(numeroTarjetaCredito) {
-        const apiUrl = `https://localhost:44350/api/tarjetas/ObtenerMontoTarjetaCredito?numeroTarjetaCredito=${numeroTarjetaCredito}`;
-    
+
+    // Función para obtener el monto de la tarjeta de débito utilizando una API tipo GET
+document.addEventListener('DOMContentLoaded', function() {
+    // Obtener el elemento donde se mostrará el monto de la tarjeta
+    const montoTarjetaElement = document.getElementById('montoT');
+
+    num = numeroTarjetaGlobal
+    console.log(num)
+
+    // Función para obtener el monto de la tarjeta mediante la API GET
+    function obtenerMontoTarjeta(numeroTarjeta) {
+        const apiUrl = `https://localhost:44350/api/tarjetas/ObtenerMontoTarjetaDebito?numeroTarjetaDebito=${num}`;
+        
         fetch(apiUrl)
             .then(response => {
                 if (!response.ok) {
@@ -426,18 +440,23 @@ document.getElementById('regresar_C').addEventListener('click', function() {
                 return response.json();
             })
             .then(data => {
-                const montoTarjeta = document.getElementById('montoTarjeta');
-                montoTarjeta.textContent = `Monto disponible: $${data.toFixed(2)}`;
+                // Actualizar el contenido del elemento con el monto obtenido
+                montoTarjetaElement.textContent = `Monto disponible: $${data.toFixed(2)}`;
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Error al obtener el monto de la tarjeta:', error);
             });
     }
-    
-    document.getElementById('retiro').addEventListener('click', function() {
-        document.getElementById("Menu_Debito").style.display = "none";
-        document.getElementById("Retiro_debito").style.display = "block";
-    });
+});
+
+
+ 
+document.getElementById('retiro').addEventListener('click', function() {
+    document.getElementById("Menu_Debito").style.display = "none";
+    document.getElementById("Retiro_debitoD").style.display = "block";
+
+});
+
 
     //deposito------------------------------------------------------------------
     document.getElementById('depositar').addEventListener('click', function() {
@@ -548,6 +567,7 @@ document.getElementById('saldo').addEventListener('click', function() {
         console.log(dataD);
         // Mostrar el monto de la tarjeta en la interfaz
         document.getElementById('Saldo_tarjeta_mostradoCre').textContent = `$${dataD}`;
+        
     })
     .catch(error => {
         console.error('Error al obtener el monto de la tarjeta:', error);
@@ -555,6 +575,7 @@ document.getElementById('saldo').addEventListener('click', function() {
         document.getElementById('Saldo_tarjeta_mostradoCre').textContent = 'Error al obtener el monto';
     });
 });
+
 
 // Obtener el botón "Regresar" por su ID
 const btnRegresar = document.getElementById('regresar_RetiroCre');
@@ -573,7 +594,7 @@ btnRegresar.addEventListener('click', function() {
         document.getElementById("Cambiar_PIN_debito").style.display = "block";
     });
 
-    document.getElementById('cancelBtn').addEventListener('click', function() {
+    document.getElementById('cancelBtnDebito').addEventListener('click', function() {
         document.getElementById('Cambiar_PIN_debito').style.display = 'none';
         document.getElementById('Menu_Debito').style.display = 'block';
     });
@@ -590,8 +611,7 @@ function verificarNuevoPINDebito() {
     const errorMsgDebito = document.getElementById('errorMsgDebito');
 
     const esValidoNuevoPinDebito = /^[0-9]{4}$/.test(newPinDebito);
-    const esPinActualCorrectoDebito = pinActualDebito === PIN
-    Global;
+    const esPinActualCorrectoDebito = pinActualDebito === PINGlobal;
     const esDiferenteDePinActualDebito = newPinDebito !== pinActualDebito;
 
     if (esValidoNuevoPinDebito && esPinActualCorrectoDebito && esDiferenteDePinActualDebito) {
@@ -674,6 +694,17 @@ function mostrarMensajeExitoDebito() {
         document.getElementById("Transacciones_debito").style.display = "block";
     });
 
+    // Mostrar la lista al hacer clic en el botón "Continuar"
+document.getElementById('continuarBtn').addEventListener('click', function() {
+    mostrarTransacciones();
+    document.getElementById('Transacciones_debito').style.display = 'block'; // Mostrar la interfaz
+});
+
+// Regresar a la interfaz anterior al hacer clic en el botón "Regresar"
+document.getElementById('regresarBtn').addEventListener('click', function() {
+    document.getElementById('Transacciones_debito').style.display = 'none'; // Ocultar la interfaz
+});
+
     document.getElementById('regresare').addEventListener('click', function() {
         document.getElementById("Menu_Debito").style.display = "none";
         document.getElementById("menu_principal").style.display = "block";
@@ -682,6 +713,7 @@ function mostrarMensajeExitoDebito() {
 
 
 // Clases para funcionamiento -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 class Proceso {
     constructor(montoInicial, limiteRetiroDiario, limiteTransacciones, servicioAutenticacion) {
@@ -753,3 +785,128 @@ class Billetes {
         }
     }
 }
+
+document.getElementById('vehiculo').addEventListener('click', function() {
+    document.getElementById("DeudaCredid").style.display = "none";
+    document.getElementById("Pago_Vehiculo").style.display = "block";
+});
+
+document.getElementById('hipotecario').addEventListener('click', function() {
+    document.getElementById("DeudaCredid").style.display = "none";
+    document.getElementById("Pago_Hipotecario").style.display = "block";
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Obtener los botones por su ID
+    const vehiculoBtn = document.getElementById('vehiculo');
+    const hipotecarioBtn = document.getElementById('hipotecario');
+
+    // Agregar eventos de click a los botones
+    vehiculoBtn.addEventListener('click', function() {
+        // Mostrar la interfaz de Pago_Vehiculo
+        document.getElementById('Pago_Vehiculo').style.display = 'block';
+        // Ocultar la interfaz actual (DeudaCredid)
+        document.getElementById('DeudaCredid').style.display = 'none';
+    });
+
+    // Evento para el botón "atrasPagoVehiculo"
+document.getElementById('atrasPagoVehiculo').addEventListener('click', function() {
+    // Oculta la sección "Pago_Vehiculo" y muestra la interfaz principal
+    document.getElementById("Pago_Vehiculo").style.display = "none";
+    document.getElementById("menu_principal").style.display = "block";
+});
+
+// Evento para el botón "pagarPagoVehiculo"
+document.getElementById('pagarPagoVehiculo').addEventListener('click', function() {
+    // Obtén la cantidad a pagar ingresada por el usuario
+    const montoPagoVehiculo = parseFloat(document.getElementById('montoPagoVehiculo').value);
+
+    // Realiza el pago de vehículo utilizando la API POST
+    realizarPagoVehiculo(montoPagoVehiculo);
+});
+
+// Función para realizar el pago de vehículo
+function realizarPagoVehiculo(montoPago) {
+    // Define la URL de la API POST para saldar pago de vehículo
+    const apiUrl = `https://localhost:44350/api/tarjetas/SaldarPagoDeCoche?numeroTarjeta=${numeroTarjetaGlobal}&saldoAPagar=${montoPago}`;
+
+    // Realiza una solicitud POST a la API
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al realizar el pago de vehículo.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Pago de vehículo realizado con éxito:', data);
+        // Puedes agregar más lógica para manejar la respuesta si es necesario
+    })
+    .catch(error => {
+        console.error('Error al realizar el pago de vehículo:', error);
+        // Maneja el error de manera apropiada (por ejemplo, muestra un mensaje de error al usuario)
+    });
+}
+    
+
+    hipotecarioBtn.addEventListener('click', function() {
+        // Mostrar la interfaz de Pago_Hipotecario
+        document.getElementById('Pago_Hipotecario').style.display = 'block';
+        // Ocultar la interfaz actual (DeudaCredid)
+        document.getElementById('DeudaCredid').style.display = 'none';
+    });
+    
+    // Evento para el botón "atrasPagoHipotecario"
+document.getElementById('atrasPagoHipotecario').addEventListener('click', function() {
+    // Oculta la sección "Pago_Hipotecario" y muestra la interfaz principal
+    document.getElementById("Pago_Hipotecario").style.display = "none";
+    document.getElementById("menu_principal").style.display = "block";
+});
+
+// Evento para el botón "pagarPagoHipotecario"
+document.getElementById('pagarPagoHipotecario').addEventListener('click', function() {
+    // Obtén la cantidad a pagar ingresada por el usuario
+    const montoPagoHipotecario = parseFloat(document.getElementById('montoPagoHipotecario').value);
+
+    // Realiza el pago hipotecario utilizando la API POST
+    realizarPagoHipotecario(montoPagoHipotecario);
+});
+
+// Función para realizar el pago hipotecario
+function realizarPagoHipotecario(montoPago) {
+    // Define la URL de la API POST para saldar hipoteca
+    const apiUrl = `https://localhost:44350/api/tarjetas/SaldarHipoteca?numeroTarjeta=${numeroTarjetaGlobal}&saldoAPagar=${montoPago}`;
+
+    // Realiza una solicitud POST a la API
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al realizar el pago hipotecario.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Pago hipotecario realizado con éxito:', data);
+        // Puedes agregar más lógica para manejar la respuesta si es necesario
+    })
+    .catch(error => {
+        console.error('Error al realizar el pago hipotecario:', error);
+        // Maneja el error de manera apropiada (por ejemplo, muestra un mensaje de error al usuario)
+    });
+}
+    
+
+    
+      
+});
+

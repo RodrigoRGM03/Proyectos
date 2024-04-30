@@ -141,16 +141,12 @@
         <div class="container">
             <h1>ATM StartBank</h1>
             <h2>Eligió la opción de pagar adeudos a crédito</h2>
+            <p id="deuda">Cargando deuda...</p>
             <p>Ingrese el monto a pagar</p>
             <input type="number" placeholder="Monto a pagar" id="monto">
             <br><br>
-            <button id="pagoTotal">Pago total</button>
-            <button id="abono">Abono</button>
+            <button id="pagoTotal">Pagar</button>
             <button id="regresar">Regresar</button>
-            <!-- Elemento para mostrar mensajes -->
-            <p id="mensaje" style="display: none;"></p>
-            <!-- Elemento para mostrar el monto devuelto por la API -->
-            <p id="montoApi" style="display: none;">Monto de la deuda:</p>
         </div>
     </div>
 
@@ -178,9 +174,8 @@
             <h2>Tarjeta de crédito</h2>
             <p>Opción: Pagar adeudos Crédito</p>
             <div class="button-container">
-                <button onclick="navigateTo('AdeudosCredito.html', 'Vehículo')">Vehículo</button>
-                <button onclick="navigateTo('AdeudosCredito.html', 'Hipotecario')">Hipotecario</button>
-                <button onclick="navigateTo('AdeudosCredito.html', 'Educativo')">Educativo</button>
+                <button type="button" id = "vehiculo">Vehículo</button>
+                <button type="button" id = "hipotecario">Hipotecario</button>
                 <button type="button" onclick="goBack()">Regresar</button>
             </div>
             <div class="info-box">
@@ -189,6 +184,31 @@
             </div>
         </div>
     </div>
+
+    <div id="Pago_Vehiculo" style="display: none;">
+        <div class="container">
+            <h1>ATM StartBank</h1>
+            <h2>Pago de Vehículo</h2>
+            <p>Ingrese la cantidad a pagar:</p>
+            <input type="number" placeholder="Cantidad a pagar" id="montoPagoVehiculo">
+            <p>Deuda: $5000</p>
+            <button id="atrasPagoVehiculo">Atrás</button>
+            <button id="pagarPagoVehiculo">Pagar</button>
+        </div>
+    </div>
+    
+    <div id="Pago_Hipotecario" style="display: none;">
+        <div class="container">
+            <h1>ATM StartBank</h1>
+            <h2>Pago Hipotecario</h2>
+            <p>Ingrese la cantidad a pagar:</p>
+            <input type="number" placeholder="Cantidad a pagar" id="montoPagoHipotecario">
+            <p>Deuda: $10000</p>
+            <button id="atrasPagoHipotecario">Atrás</button>
+            <button id="pagarPagoHipotecario">Pagar</button>
+        </div>
+    </div>
+    
 
     <!--DeudasCreditoOpciones-->
     <div id="OpcionesDeu" style="display: none;">
