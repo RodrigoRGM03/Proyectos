@@ -32,7 +32,7 @@ namespace Apilongo.Controllers
             }
             catch (Exception ex)
             {
-                
+
                 return InternalServerError(ex);
             }
         }
@@ -44,7 +44,7 @@ namespace Apilongo.Controllers
             try
             {
                 bool pinCorrecto = UsuarioData.VerificarPINDeb(numeroTarjeta, pin);
-               
+
                 if (pinCorrecto)
                 {
                     return Ok(true);
@@ -60,12 +60,55 @@ namespace Apilongo.Controllers
             }
         }
 
-        
+
         public Tarjetas Get(int id)
         {
             return UsuarioData.Obtener(id);
         }
 
+        [HttpPost]
+        [Route("api/tarjetas/RetiroCredito")]
+        public IHttpActionResult RetiroCredito(string numeroTarjetaCredito, decimal cantidadRetiro, decimal montoTarjeta)
+        {
+
+            decimal nuevaCantidad = montoTarjeta - cantidadRetiro;
+
+
+            string connectionString = Apilongo.Data.Conexion.rutaConexion;
+
+
+            string consultaActualizacion = "UPDATE Tarjetas SET MontoTarjetaCredito = @NuevaCantidad WHERE NumeroTarjetaCredito = @NumeroTarjetaCredito";
+
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                connection.Open();
+
+
+                using (SqlCommand command = new SqlCommand(consultaActualizacion, connection))
+                {
+
+                    command.Parameters.AddWithValue("@NuevaCantidad", nuevaCantidad);
+                    command.Parameters.AddWithValue("@NumeroTarjetaCredito", numeroTarjetaCredito);
+
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+
+                    if (rowsAffected > 0)
+                    {
+
+                        return Ok(true);
+                    }
+                    else
+                    {
+
+                        return Ok(false);
+                    }
+                }
+            }
+        }
         [HttpGet]
         [Route("api/tarjetas/ObtenerMontoTarjetaCredito")]
         public IHttpActionResult ObtenerMontoTarjetaCredito(string numeroTarjetaCredito)
@@ -79,7 +122,7 @@ namespace Apilongo.Controllers
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                
+
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@NumeroTarjetaCredito", numeroTarjetaCredito);
@@ -114,7 +157,7 @@ namespace Apilongo.Controllers
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                
+
                 using (SqlCommand commandVerificacion = new SqlCommand(consultaVerificacion, connection))
                 {
                     commandVerificacion.Parameters.AddWithValue("@NumeroTarjetaCredito", numeroTarjetaCredito);
@@ -130,7 +173,7 @@ namespace Apilongo.Controllers
                     {
                         commandActualizacion.Parameters.AddWithValue("@NumeroTarjetaCredito", numeroTarjetaCredito);
                         commandActualizacion.Parameters.AddWithValue("@NuevoPIN", nuevoPIN);
-                        
+
                         commandActualizacion.ExecuteNonQuery();
                     }
                 }
@@ -157,7 +200,7 @@ namespace Apilongo.Controllers
                 connection.Open();
 
                 using (SqlCommand command = new SqlCommand(consultaDeuda, connection))
-                { 
+                {
                     command.Parameters.AddWithValue("@NumeroTarjetaCredito", numeroTarjetaCredito);
 
                     object resultado = command.ExecuteScalar();
@@ -167,7 +210,7 @@ namespace Apilongo.Controllers
                     }
                     else
                     {
-                        
+
                         return NotFound();
                     }
                 }
@@ -183,9 +226,98 @@ namespace Apilongo.Controllers
                 }
             }
 
-            
+
             return Ok(true);
         }
+
+        [HttpPost]
+        [Route("api/tarjetas/RetiroDebito")]
+        public IHttpActionResult RetiroDebito(string numeroTarjetaDebito, decimal cantidadRetiro, decimal montoTarjeta)
+        {
+
+            decimal nuevaCantidad = montoTarjeta - cantidadRetiro;
+
+
+            string connectionString = Apilongo.Data.Conexion.rutaConexion;
+
+
+            string consultaActualizacion = "UPDATE Tarjetas SET MontoTarjetaDebito = @NuevaCantidad WHERE NumeroTarjetaDebito = @NumeroTarjetaDebito";
+
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                connection.Open();
+
+
+                using (SqlCommand command = new SqlCommand(consultaActualizacion, connection))
+                {
+
+                    command.Parameters.AddWithValue("@NuevaCantidad", nuevaCantidad);
+                    command.Parameters.AddWithValue("@NumeroTarjetaDebito", numeroTarjetaDebito);
+
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+
+                    if (rowsAffected > 0)
+                    {
+
+                        return Ok(true);
+                    }
+                    else
+                    {
+
+                        return Ok(false);
+                    }
+                }
+            }
+        }
+
+        [HttpPost]
+        [Route("api/tarjetas/DepositarDebito")]
+        public IHttpActionResult DepositarDebito(string numeroTarjetaDebito, decimal cantidadDeposito, decimal montoTarjeta)
+        {
+
+            decimal nuevaCantidad = montoTarjeta + cantidadDeposito;
+
+
+            string connectionString = Apilongo.Data.Conexion.rutaConexion;
+
+
+            string consultaActualizacion = "UPDATE Tarjetas SET MontoTarjetaDebito = @NuevaCantidad WHERE NumeroTarjetaDebito = @NumeroTarjetaDebito";
+
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                connection.Open();
+
+
+                using (SqlCommand command = new SqlCommand(consultaActualizacion, connection))
+                {
+
+                    command.Parameters.AddWithValue("@NuevaCantidad", nuevaCantidad);
+                    command.Parameters.AddWithValue("@NumeroTarjetaDebito", numeroTarjetaDebito);
+
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+
+                    if (rowsAffected > 0)
+                    {
+
+                        return Ok(true);
+                    }
+                    else
+                    {
+
+                        return Ok(false);
+                    }
+                }
+            }
+        }
+
         [HttpGet]
         [Route("api/tarjetas/ObtenerMontoTarjetaDebito")]
         public IHttpActionResult ObtenerMontoTarjetaDebito(string numeroTarjetaDebito)
@@ -197,7 +329,7 @@ namespace Apilongo.Controllers
             string query = "SELECT MontoTarjetaDebito FROM Tarjetas WHERE NumeroTarjetaDebito = @NumeroTarjetaDebito";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
-            { 
+            {
                 connection.Open();
 
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -205,6 +337,7 @@ namespace Apilongo.Controllers
                     command.Parameters.AddWithValue("@NumeroTarjetaDebito", numeroTarjetaDebito);
 
                     using (SqlDataReader reader = command.ExecuteReader())
+
                     {
                         if (reader.Read())
                         {
@@ -219,6 +352,58 @@ namespace Apilongo.Controllers
             }
             return Ok(montoTarjetaDebito);
         }
+
+        [HttpPost]
+        [Route("api/tarjetas/CambiarPINDeb")]
+        public IHttpActionResult CambiarPINDeb(string numeroTarjetaDebito, int pin, int nuevoPIN)
+        {
+
+            string connectionString = Apilongo.Data.Conexion.rutaConexion;
+
+
+            string consultaVerificacion = "SELECT PIN FROM Tarjetas WHERE NumeroTarjetaDebito = @NumeroTarjetaDebito";
+
+
+            string consultaActualizacion = "UPDATE Tarjetas SET PIN = @NuevoPIN WHERE NumeroTarjetaDebito = @NumeroTarjetaDebito";
+
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                connection.Open();
+
+
+                using (SqlCommand commandVerificacion = new SqlCommand(consultaVerificacion, connection))
+                {
+
+                    commandVerificacion.Parameters.AddWithValue("@NumeroTarjetaDebito", numeroTarjetaDebito);
+
+
+                    int pinActual = Convert.ToInt32(commandVerificacion.ExecuteScalar());
+
+
+                    if (pinActual != pin)
+                    {
+                        return Ok(false);
+                    }
+
+
+                    using (SqlCommand commandActualizacion = new SqlCommand(consultaActualizacion, connection))
+                    {
+
+                        commandActualizacion.Parameters.AddWithValue("@NumeroTarjetaDebito", numeroTarjetaDebito);
+                        commandActualizacion.Parameters.AddWithValue("@NuevoPIN", nuevoPIN);
+
+
+                        commandActualizacion.ExecuteNonQuery();
+                    }
+                }
+            }
+
+
+            return Ok(true);
+        }
+
 
     }
 }

@@ -243,7 +243,7 @@
                 <button type="button" id="saldo">Consultar saldo</button>
                 <button type="button" id="pin_D">Cambiar PIN</button>
                 <button type="button" id="transacciones">Transacciones</button>
-                <button type="button" id="regresar">Regresar al menú anterior</button>
+                <button type="button" id="regresare">Regresar al menú anterior</button>
             </form>
         </div>
     </div>
@@ -253,17 +253,20 @@
         <div class="container">
             <h1>ATM StartBank</h1>
             <h2>Eligió la opción retiro</h2>
-            <!--Imagen#5-->
-            <p id="montoTarjeta">Monto disponible: Cargando...</p>
+            
+            <!-- Esto muestra el monto actual de la tarjeta -->
+            <p id="montoTarjetaDebito">Monto disponible: Cargando...</p>
             <form>
-                <label for="cantidad">Ingrese la cantidad que desea retirar:</label>
-                <input type="number" id="cantidad" name="cantidad" placeholder="Cantidad en MXN" required>
+                <label for="cantidadDebito">Ingrese la cantidad que desea retirar:</label>
+                <input type="number" id="cantidadDebito" name="cantidadDebito" placeholder="Cantidad en MXN" required>
                 <button type="button" id="retirar_D">Retirar</button>
                 <button type="button" id="regresar_MD">Regresar</button>
             </form>
-            <p id="mensaje_error" style="color: red; display: none;">La cantidad de retiro debe ser mayor que cero y un múltiplo de 50.</p>
+            <p id="mensaje_error_retiro_debito" style="color: red; display: none;">La cantidad de retiro debe ser mayor o igual a 50 y menor o igual al monto disponible.</p>
+            <p id="mensaje_error_debito" style="color: red; display: none;">La cantidad de retiro debe ser mayor que cero y un múltiplo de 50.</p>
         </div>
     </div>
+    
 
     <div id="informacion_DEB" style="display: none;">
         <div class="container">
@@ -312,16 +315,16 @@
     <div id="Depositar_debito" style="display: none;">
         <div class="container">
             <h1>ATM StartBank</h1>
-            <h2>Eligió la opción deposito</h2>
-            <!--Imagen#4-->
+            <h2>Ingresa la cantidad a depositar</h2>
             <form>
-                <label for="cantidad">Ingrese la cantidad que desea depositar:</label>
-                <input type="number" id="cantidad" name="cantidad" placeholder="Cantidad en MXN" required>
-                <button onclick="window.location.href = 'file:///C:/Users/rodri/cajero/DepositoC.html'">Depositar</button>
-                <button type="button" onclick="window.history.back();">Regresar</button>
+                <label for="montoDeposito">Ingrese la cantidad a depositar:</label><br>
+                <input type="number" id="montoDeposito" name="montoDeposito" placeholder="Cantidad a depositar" required><br>
+                <button type="button" id="depositarBtn">Depositar</button>
+                <button type="button" id="regresaBtnDeposito">Regresar</button>
             </form>
         </div>
     </div>
+    
 
     <!--Cambiar PIN-->
     

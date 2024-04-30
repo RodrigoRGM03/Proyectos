@@ -415,6 +415,25 @@ document.getElementById('regresar_C').addEventListener('click', function() {
 //document.addEventListener('DOMContentLoaded', function() {
 
     //retiro---------------------------------------------------
+    function obtenerMontoTarjetaCredito(numeroTarjetaCredito) {
+        const apiUrl = `https://localhost:44350/api/tarjetas/ObtenerMontoTarjetaCredito?numeroTarjetaCredito=${numeroTarjetaCredito}`;
+    
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al obtener el monto de la tarjeta');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const montoTarjeta = document.getElementById('montoTarjeta');
+                montoTarjeta.textContent = `Monto disponible: $${data.toFixed(2)}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+    
     document.getElementById('retiro').addEventListener('click', function() {
         document.getElementById("Menu_Debito").style.display = "none";
         document.getElementById("Retiro_debito").style.display = "block";
@@ -426,7 +445,86 @@ document.getElementById('regresar_C').addEventListener('click', function() {
         document.getElementById("Depositar_debito").style.display = "block";
     });
 
-    //Saldo-------------------------------------------------
+    // Obtener el botón "Regresar" de la interfaz de depósito de débito
+const regresaBtnDeposito = document.getElementById('regresaBtnDeposito');
+
+// Agregar un evento de clic al botón "Regresar"
+regresaBtnDeposito.addEventListener('click', function() {
+    document.getElementById("Depositar_debito").style.display = "none";
+    document.getElementById("Menu_Debito").style.display = "block";
+    // Aquí iría la lógica para regresar al menú de débito
+    console.log('Regresando al menú de débito desde Depositar_debito');
+});
+
+
+    // Obtener el botón "Depositar" de la interfaz de depósito de débito
+const depositarBtn = document.getElementById('depositarBtn');
+
+// Agregar un evento de clic al botón "Depositar"
+depositarBtn.addEventListener('click', function() {
+    const montoDepositoInput = document.getElementById('montoDeposito');
+    const montoDeposito = parseFloat(montoDepositoInput.value);
+
+    if (montoDeposito > 0 && montoDeposito > 50) {
+        // Paso 1: Obtener el monto de la tarjeta de débito
+        obtenerMontoTarjetaDebito(montoDeposito);
+    } else {
+        // Mostrar un mensaje de error si el monto es incorrecto
+        alert('El monto a depositar debe ser mayor a $50 y mayor que cero.');
+    }
+});
+
+// Función para obtener el monto de la tarjeta de débito utilizando una API tipo GET
+function obtenerMontoTarjetaDebito(cantidadDeposito) {
+    const apiUrl = `https://localhost:44350/api/tarjetas/ObtenerMontoTarjetaDebito?numeroTarjetaDebito=${numeroTarjetaGlobal}`;
+
+    fetch(apiUrl, {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        const montoTarjeta = data;
+        // Paso 2: Realizar el depósito utilizando una API tipo POST
+        realizarDeposito(cantidadDeposito, montoTarjeta);
+        console.log(cantidadDeposito)
+        console.log(montoTarjeta)
+    })
+    .catch(error => {
+        console.error('Error al obtener el monto de la tarjeta:', error);
+        // Mostrar un mensaje de error en caso de fallo al obtener el monto
+        alert('Error al obtener el monto de la tarjeta. Intente nuevamente más tarde.');
+    });
+}
+
+// Función para realizar el depósito utilizando una API tipo POST
+function realizarDeposito(cantidadDeposito, montoTarjeta) {
+    const apiUrl = `https://localhost:44350/api/tarjetas/DepositarDebito?numeroTarjetaDebito=${numeroTarjetaGlobal}&cantidadDeposito=${cantidadDeposito}&montoTarjeta=${montoTarjeta}`;
+
+    fetch(apiUrl, {
+        method: 'POST'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al realizar el depósito.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Mostrar un mensaje de éxito después de realizar el depósito
+        alert('Depósito realizado con éxito');
+        // Actualizar el saldo en la interfaz si es necesario
+        // Aquí podrías llamar a una función para actualizar el saldo mostrado en la interfaz
+    })
+    .catch(error => {
+        console.error('Error al realizar el depósito:', error);
+        // Mostrar un mensaje de error en caso de fallo al realizar el depósito
+        alert('Error al realizar el depósito. Intente nuevamente más tarde.');
+    });
+
+   
+}
+
+    //Saldo-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Agregar un evento de clic al botón "saldo"
 document.getElementById('saldo').addEventListener('click', function() {
     // Ocultar la interfaz del menú de débito y mostrar la interfaz de consulta de saldo
@@ -492,7 +590,8 @@ function verificarNuevoPINDebito() {
     const errorMsgDebito = document.getElementById('errorMsgDebito');
 
     const esValidoNuevoPinDebito = /^[0-9]{4}$/.test(newPinDebito);
-    const esPinActualCorrectoDebito = pinActualDebito === PINGlobal;
+    const esPinActualCorrectoDebito = pinActualDebito === PIN
+    Global;
     const esDiferenteDePinActualDebito = newPinDebito !== pinActualDebito;
 
     if (esValidoNuevoPinDebito && esPinActualCorrectoDebito && esDiferenteDePinActualDebito) {
@@ -575,7 +674,7 @@ function mostrarMensajeExitoDebito() {
         document.getElementById("Transacciones_debito").style.display = "block";
     });
 
-    document.getElementById('regresar').addEventListener('click', function() {
+    document.getElementById('regresare').addEventListener('click', function() {
         document.getElementById("Menu_Debito").style.display = "none";
         document.getElementById("menu_principal").style.display = "block";
     });
