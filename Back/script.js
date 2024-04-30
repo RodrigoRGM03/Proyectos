@@ -64,11 +64,14 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('ingresar_debito').addEventListener('click', function() {
 
+        var numeroTarjeta = document.getElementById('numero_tarjeta_debito').value;
+        var pin = document.getElementById('pin_debito').value;
+
         numeroTarjetaGlobal = numeroTarjeta;
         PINGlobal = pin;
 
-        var numeroTarjeta = document.getElementById('numero_tarjeta_debito').value;
-        var pin = document.getElementById('pin_debito').value;
+        console.log(numeroTarjeta);
+        console.log(pin);
 
         var url = 'https://localhost:44350/api/tarjetas/verificarpindeb?numeroTarjeta=' + encodeURIComponent(numeroTarjeta) + '&pin=' + encodeURIComponent(pin);
 
@@ -246,49 +249,9 @@ document.getElementById('retirar_C').addEventListener('click', function() {
 
 document.getElementById('pagar_C').addEventListener('click', function() {
     document.getElementById("Menu_Credito").style.display = "none";
-    document.getElementById("PagarAdeudos").style.display = "block";
+    document.getElementById("PagarAdeudosCre").style.display = "block";
 
 });
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Llamar a la función mostrarPagarAdeudos cuando se cargue la página
-    mostrarPagarAdeudos();
-});
-
-// Función para obtener la deuda de la tarjeta de crédito
-function obtenerDeuda(numeroTarjetaCredito) {
-    const apiUrl = 'https://localhost:44350/api/tarjetas/ObtenerDeudaTarjetaCredito?numeroTarjetaCredito=' + numeroTarjetaCredito;
-
-    // Realizar la solicitud GET a la API
-    fetch(apiUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al obtener la deuda de la tarjeta.');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Mostrar el dato devuelto por la API en el párrafo con id "deuda"
-            const deudaElement = document.getElementById('deuda');
-            deudaElement.textContent = 'Deuda actual: $${data.toFixed(2)}';
-        })
-        .catch(error => {
-            console.error('Error al obtener la deuda de la tarjeta:', error);
-            // Puedes agregar lógica adicional para manejar errores, como mostrar un mensaje de error al usuario
-        });
-}
-
-// Función para mostrar la sección PagarAdeudos y obtener la deuda
-function mostrarPagarAdeudos() {
-    // Mostrar la sección PagarAdeudos
-    document.getElementById('PagarAdeudos').style.display = 'block';
-    
-    // Número de tarjeta de crédito (asegúrate de obtenerlo de la forma correcta)
-    const numeroTarjetaCredito = numeroTarjetaGlobal; // Reemplaza con el número de tarjeta correcto
-    
-    // Llamar a la función para obtener la deuda de la tarjeta de crédito
-    obtenerDeuda(numeroTarjetaCredito);
-}
 
 //Ver Saldo--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', function() {
@@ -449,36 +412,110 @@ document.getElementById('regresar_C').addEventListener('click', function() {
 
 //Menu Debito------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-document.addEventListener('DOMContentLoaded', function() {
+//document.addEventListener('DOMContentLoaded', function() {
+
+    //retiro---------------------------------------------------
     document.getElementById('retiro').addEventListener('click', function() {
         document.getElementById("Menu_Debito").style.display = "none";
         document.getElementById("Retiro_debito").style.display = "block";
     });
 
+    //deposito------------------------------------------------------------------
     document.getElementById('depositar').addEventListener('click', function() {
         document.getElementById("Menu_Debito").style.display = "none";
         document.getElementById("Depositar_debito").style.display = "block";
     });
 
-    document.getElementById('saldo').addEventListener('click', function() {
-        fetch('https://localhost:44350/api/tarjetas/ObtenerMontoTarjetaDebito?numeroTarjetaDebito=9876543210987654')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("saldo_actual").innerText = data.saldo;
-            })
-            .catch(error => {
-                console.error('Error al obtener el saldo:', error);
-            });
-    
-        document.getElementById("Menu_Debito").style.display = "none";
-        document.getElementById("Consulta_saldo_debito").style.display = "block";
-    });
+    //Saldo-------------------------------------------------
+// Agregar un evento de clic al botón "saldo"
+document.getElementById('saldo').addEventListener('click', function() {
+    // Ocultar la interfaz del menú de débito y mostrar la interfaz de consulta de saldo
+    document.getElementById("Menu_Debito").style.display = "none";
+    document.getElementById("Consulta_saldo_debito").style.display = "block";
 
+    // Obtener el número de tarjeta global
+    const numeroTarjetaC = numeroTarjetaGlobal;
+
+    console.log(numeroTarjetaC)
+
+    // Mostrar el número de tarjeta en la interfaz
+    document.getElementById('Numero_tarjeta_mostradoCre').textContent = numeroTarjetaC;
+
+       // Hacer una solicitud GET a la API para obtener el monto de la tarjeta
+    fetch('https://localhost:44350/api/tarjetas/ObtenerMontoTarjetaDebito?numeroTarjetaDebito=' + numeroTarjetaC, {
+        method: 'GET' // Especificar que es una solicitud GET
+    })
+    .then(response => response.json())
+    .then(dataD => {
+        console.log(dataD);
+        // Mostrar el monto de la tarjeta en la interfaz
+        document.getElementById('Saldo_tarjeta_mostradoCre').textContent = `$${dataD}`;
+    })
+    .catch(error => {
+        console.error('Error al obtener el monto de la tarjeta:', error);
+        // En caso de error, mostrar un mensaje en la interfaz
+        document.getElementById('Saldo_tarjeta_mostradoCre').textContent = 'Error al obtener el monto';
+    });
+});
+
+// Obtener el botón "Regresar" por su ID
+const btnRegresar = document.getElementById('regresar_RetiroCre');
+
+// Agregar un evento de clic al botón "Regresar"
+btnRegresar.addEventListener('click', function() {
+    // Ocultar la interfaz de consulta de saldo y mostrar la interfaz del menú de débito
+    document.getElementById('Consulta_saldo_debito').style.display = 'none';
+    document.getElementById('Menu_Debito').style.display = 'block';
+});
+
+
+    //Cambio PIN---------------------------------------------------------------------------------
     document.getElementById('pin_D').addEventListener('click', function() {
         document.getElementById("Menu_Debito").style.display = "none";
         document.getElementById("Cambiar_PIN_debito").style.display = "block";
     });
 
+    document.getElementById('cancelBtn').addEventListener('click', function() {
+        document.getElementById('Cambiar_PIN_debito').style.display = 'none';
+        document.getElementById('Menu_Debito').style.display = 'block';
+    });
+
+    // Función para verificar si el nuevo PIN es válido
+function verificarNuevoPINDebito() {
+    const newPinDebitoInput = document.getElementById('newPinDebito');
+    const newPinDebito = newPinDebitoInput.value;
+
+    const pinActualDebitoInput = document.getElementById('pinActualDebito');
+    const pinActualDebito = pinActualDebitoInput.value;
+
+    const acceptBtnDebito = document.getElementById('acceptBtnDebito');
+    const errorMsgDebito = document.getElementById('errorMsgDebito');
+
+    const esValidoNuevoPinDebito = /^[0-9]{4}$/.test(newPinDebito);
+    const esPinActualCorrectoDebito = pinActualDebito === PINDebitoGlobal;
+    const esDiferenteDePinActualDebito = newPinDebito !== pinActualDebito;
+
+    if (esValidoNuevoPinDebito && esPinActualCorrectoDebito && esDiferenteDePinActualDebito) {
+        acceptBtnDebito.disabled = false;
+        errorMsgDebito.style.display = 'none';
+    } else {
+        acceptBtnDebito.disabled = true;
+        errorMsgDebito.style.display = 'block';
+
+        if (!esValidoNuevoPinDebito) {
+            errorMsgDebito.textContent = 'El nuevo PIN debe tener 4 dígitos numéricos.';
+        } else if (!esDiferenteDePinActualDebito) {
+            errorMsgDebito.textContent = 'El nuevo PIN no puede ser el mismo que el PIN actual.';
+        } else {
+            errorMsgDebito.textContent = 'El PIN actual es incorrecto.';
+        }
+    }
+}
+
+    console.log('Nuevo PIN válido:', newPinDebito);
+
+
+    //transacciones-------------------------------
     document.getElementById('transacciones').addEventListener('click', function() {
         document.getElementById("Menu_Debito").style.display = "none";
         document.getElementById("Transacciones_debito").style.display = "block";
@@ -488,7 +525,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("Menu_Debito").style.display = "none";
         document.getElementById("menu_principal").style.display = "block";
     });
-});
+//});
 
 
 // Clases para funcionamiento -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

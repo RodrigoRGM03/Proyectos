@@ -17,10 +17,12 @@
                 <img src="https://i.postimg.cc/3kCxk6Q9/2972ba85-c76b-41ca-ba3e-bd11edd975b1.png" alt="Logo">
             </div>
             <p>Bienvenido al cajero automático StartBank.</p>
-            <h2>Elige su tipo de tarjeta:</h2>
+            <h2>Elige su tipo de movimiento:</h2>
             <button id="credito">Credito</button>
             <button id="debito">Debito</button>
-            <h2>Tu dinero mas seguro aqui en el StartBank</h2>
+            <button id="servicio">Servicios</button>
+            <h2>STARTBANK Tu socio mas confiable en cada transaccion financiera...</h2>
+            <p>&copy; 2024 ATM StartBank. Todos los derechos reservados.</p>
         </div>
     </div>
 
@@ -135,11 +137,10 @@
     </div>
 
     <!--PagarAdeudos-->
-    <div id="PagarAdeudos" style="display: none;">
+    <div id="PagarAdeudosCre" style="display: none;">
         <div class="container">
             <h1>ATM StartBank</h1>
             <h2>Eligió la opción de pagar adeudos a crédito</h2>
-            <p>El monto de la deuda es $ ####</p>
             <p>Ingrese el monto a pagar</p>
             <input type="number" placeholder="Monto a pagar" id="monto">
             <br><br>
@@ -148,8 +149,8 @@
             <button id="regresar">Regresar</button>
             <!-- Elemento para mostrar mensajes -->
             <p id="mensaje" style="display: none;"></p>
-            <!-- Agrega un elemento <p> para mostrar el monto obtenido de la API -->
-            <p id="montoApi" style="display: none;"></p>
+            <!-- Elemento para mostrar el monto devuelto por la API -->
+            <p id="montoApi" style="display: none;">Monto de la deuda:</p>
         </div>
     </div>
 
@@ -253,6 +254,7 @@
             <h1>ATM StartBank</h1>
             <h2>Eligió la opción retiro</h2>
             <!--Imagen#5-->
+            <p id="montoTarjeta">Monto disponible: Cargando...</p>
             <form>
                 <label for="cantidad">Ingrese la cantidad que desea retirar:</label>
                 <input type="number" id="cantidad" name="cantidad" placeholder="Cantidad en MXN" required>
@@ -284,22 +286,27 @@
     <div id="Consulta_saldo_debito" style="display: none;">
         <div class="container">
             <h2>Información de Tarjeta de Crédito</h2>
-
+    
             <div>
-                <label for="numero_tarjeta_mostrado">Número de Tarjeta:</label>
-                <div id="numero_tarjeta_mostrado" class="info">#### #### #### ####</div>
+                <label for="numero_tarjeta_mostradoCre">Número de Tarjeta:</label>
+                <div id="Numero_tarjeta_mostradoCre" class="info">#### #### #### ####</div>
                 <!-- El número de tarjeta se mostrará aquí -->
             </div>
-
+    
             <div>
-                <label for="saldo_tarjeta_mostrado">Saldo:</label>
-                <div id="saldo_tarjeta_mostrado" class="info">$0.00</div>
+                <label for="saldo_tarjeta_mostradoCre">Saldo:</label>
+                <div id="Saldo_tarjeta_mostradoCre" class="info">$0.00</div>
                 <!-- El saldo se mostrará aquí -->
             </div>
-
-            <button id="regresar_Retiro">Regresar</button>
+    
+            <button id="regresar_RetiroCre">Regresar</button>
         </div>
     </div>
+    
+    <div id="Menu_Debito" style="display: none;">
+        <!-- Contenido de la interfaz del menú de débito -->
+    </div>
+    
 
     <!-- Depositar-->
     <div id="Depositar_debito" style="display: none;">
@@ -323,15 +330,17 @@
             <h2>Eligió la opción cambiar PIN</h2>
             <!--Imagen#3-->
             <form>
-                <label for="pinActual">Ingrese su PIN actual:</label><br>
-                <input type="password" id="pinActual" name="pinActual" placeholder="PIN actual" required><br>
-                <label for="newPin">Ingrese el nuevo PIN:</label><br>
-                <input type="text" id="newPin" name="newPin" placeholder="Nuevo PIN" required><br>
-                <button id="acceptBtn">Aceptar</button>
-                <button id="cancelBtn">Cancelar</button>
+                <label for="pinActualDebito">Ingrese su PIN actual:</label><br>
+                <input type="password" id="pinActualDebito" name="pinActualDebito" placeholder="PIN actual" required><br>
+                <label for="newPinDebito">Ingrese el nuevo PIN:</label><br>
+                <input type="password" id="newPinDebito" name="newPinDebito" placeholder="Nuevo PIN" required><br>
+                <button type="button" id="acceptBtnDebito">Aceptar</button>
+                <button type="button" id="cancelBtnDebito">Cancelar</button>
+                <p id="errorMsgDebito" style="color: red; display: none;">El PIN debe tener 4 dígitos numéricos.</p>
             </form>
         </div>
     </div>
+    
    
     <!-- Transacciones-->
     <div id="Transacciones_debito" style="display: none;">
